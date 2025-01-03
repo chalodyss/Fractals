@@ -2,6 +2,8 @@
 # Tous droits réservés.
 #
 
+# pylint: disable=E1101
+
 ################################################################################
 
 """ Von Koch Flake """
@@ -124,14 +126,17 @@ def main():
     """ main function """
     check_args()
 
-    iterations  = int(sys.argv[1])
-    speed       = int(sys.argv[2])
-    tracer      = int(sys.argv[3])
+    iterations      = int(sys.argv[1])
+    speed           = int(sys.argv[2])
+    tracer          = int(sys.argv[3])
 
-    ws          = turtle.getscreen()
+    ws              = turtle.getscreen()
 
+    screen_width    = ws.getcanvas().winfo_screenwidth()
+    screen_height   = ws.getcanvas().winfo_screenheight()
+
+    ws.setup(width  = screen_width / 2, height = (screen_height * 2) / 3)
     ws.title("Von Koch Curve")
-    ws.setup(1200, 1200)
     ws.bgcolor("#17202A")
 
     turtle.pencolor("#FFFFFF")
@@ -143,13 +148,17 @@ def main():
     if tracer == 1:
         turtle.tracer(0)
 
-    p_a     = [-400, -250]
-    p_b     = [400, -250]
-    p_c     = [0, 500]
+    window_width    = ws.window_width()
+    base            = window_width * 0.6
+    height          = (base * 3**0.5) / 2
 
-    curves  = [ koch_curve(p_a, p_c, iterations),
-                koch_curve(p_c, p_b, iterations),
-                koch_curve(p_b, p_a, iterations) ]
+    p_a             = [ -base / 2, -height / 3 ]
+    p_b             = [ base / 2, -height / 3 ]
+    p_c             = [ 0, height * 2/3 ]
+
+    curves          = [ koch_curve(p_a, p_c, iterations),
+                        koch_curve(p_c, p_b, iterations),
+                        koch_curve(p_b, p_a, iterations) ]
 
     turtle.begin_fill()
 
