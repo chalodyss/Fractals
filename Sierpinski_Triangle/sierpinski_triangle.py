@@ -76,14 +76,17 @@ def main():
     """ main function """
     check_args()
 
-    iterations  = int(sys.argv[1])
-    speed       = int(sys.argv[2])
+    iterations      = int(sys.argv[1])
+    speed           = int(sys.argv[2])
 
-    turtle  = Turtle()
-    ws      = turtle.getscreen()
+    turtle          = Turtle()
+    ws              = turtle.getscreen()
 
+    screen_width    = ws.getcanvas().winfo_screenwidth()
+    screen_height   = ws.getcanvas().winfo_screenheight()
+
+    ws.setup(width  = screen_width / 2, height = (screen_height * 2) / 3)
     ws.title("Sierpinski Triangle")
-    ws.setup(1000, 1000)
     ws.bgcolor("#212F3C")
 
     turtle.speed(speed)
@@ -91,13 +94,15 @@ def main():
     turtle.pensize(width = 2)
     turtle.pencolor("#FFFFFF")
 
-    p_a = [-400, -350]
-    p_b = [400, -350]
-    p_c = [0, 400]
+    window_width    = ws.window_width()
+    base            = window_width * 0.8
+    height          = (base * 3**0.5) / 2
 
-    triangle.append(p_a)
-    triangle.append(p_b)
-    triangle.append(p_c)
+    p_a             = [ -base / 2, -height / 2 ]
+    p_b             = [ base / 2, -height / 2 ]
+    p_c             = [ 0, height / 2 ]
+
+    triangle.extend([p_a, p_b, p_c])
 
     build(p_a, p_b, p_c, iterations)
     draw(turtle)
